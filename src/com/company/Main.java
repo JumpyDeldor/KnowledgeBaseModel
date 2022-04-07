@@ -1,13 +1,13 @@
 package com.company;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
-    private static final int[] moments={2,3,2,3,2,1,3,3,3,1,3,2,3,1,1,3,1};//Задаём МН для всей ИБ
-    private static final int[] period={9,5,7,3,8,13,10,7,8,6,5,4,3,10,17,9,5};//Задаём длины ПД для все ИБ
     private static int nmoment = 0;
     private static int nperiod = 0;
-    public static void generateTimeMoments(int[] attribute){
+    public static void generateTimeMoments(int[] attribute, int[] moments, int[] period){
         Random random = new Random();
 
         for (int k : attribute) {
@@ -32,7 +32,7 @@ public class Main {
         }
     }
 
-    public static void generateVolumes(String[][][] volume, int[] illness){
+    public static void generateVolumes(String[][][] volume, int[] illness, int[] moments){
         Random random = new Random();
         nmoment = 0;
         for(int i=0; i<illness.length;i++){
@@ -44,7 +44,7 @@ public class Main {
             }
         }
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         int[] rm={5, 2, 3, 2, 4, 1};//Число ПД для первой болезни
         int[] sm={5, 5, 3, 2, 3, 4};//Число ПД для второй(для удобства)
         String[][][] rm_v={
@@ -89,7 +89,20 @@ public class Main {
                         {"отсутствует"},
                         {"есть"},
                         {"отсутствует"}}};//Значения в периоды второй болезни(для удобства)
-        //generateTimeMoments(rm);//Генерируем МН для ИБ
-        generateVolumes(rm_v, rm);//Генерируем значения МН для ИБ
+        Scanner in = new Scanner(System.in);
+
+
+        System.out.print("Число МН/ПД: ");
+        int num = in.nextInt();
+        int[] moments=new int[num];//Задаём МН для всей ИБ
+        int[] period=new int[num];//Задаём длины ПД для все ИБ
+        System.out.println("МН: ");
+        for(int i=0; i<num;i++)
+            moments[i]=in.nextInt();
+        System.out.println("ПД: ");
+        for(int i=0; i<num;i++)
+            period[i]=in.nextInt();
+        generateTimeMoments(sm,moments,period);//Генерируем МН для ИБ
+        generateVolumes(sm_v, sm,moments);//Генерируем значения МН для ИБ
     }
 }
